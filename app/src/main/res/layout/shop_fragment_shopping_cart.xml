@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shoppingCartScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/layoutCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvCartHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_mono"
+            android:paddingBottom="12dp"
+            android:text="Your Cart"
+            android:textColor="@color/app_primary_teal"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/cartItemsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/tvItemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_mono"
+            android:paddingTop="12dp"
+            android:text="Items in Cart: 0"
+            android:textColor="@color/app_secondary_text_dark_grey" />
+
+        <TextView
+            android:id="@+id/tvTotalCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_mono"
+            android:paddingTop="8dp"
+            android:text="Total Cost (incl. GST): ₹0"
+            android:textColor="@color/app_secondary_text_dark_grey" />
+
+        <Button
+            android:id="@+id/btnSelectAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Deliver to"
+            app:cornerRadius="20dp" />
+
+        <Button
+            android:id="@+id/btnPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Pay ₹0"
+            android:textColor="@android:color/white"
+            app:cornerRadius="20dp" />
+
+        <!-- Payment Summary Section -->
+        <LinearLayout
+            android:id="@+id/layoutPaymentSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingTop="24dp">
+
+            <TextView
+                android:id="@+id/tvPaymentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Order Placed Successfully"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvOrderId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Order ID: -"
+                android:textColor="@color/app_secondary_text_dark_grey" />
+
+            <TextView
+                android:id="@+id/tvTransactionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Transaction ID: -"
+                android:textColor="@color/app_secondary_text_dark_grey" />
+
+            <TextView
+                android:id="@+id/tvDeliveryAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Delivered to: -"
+                android:textColor="@color/app_secondary_text_dark_grey" />
+
+            <TextView
+                android:id="@+id/tvArrivalDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Arriving on: -"
+                android:textColor="@color/app_secondary_text_dark_grey" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921829329605",
+    "project_id": "anamaya-41e41e",
+    "storage_bucket": "anamaya-41e41e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921829329605:android:2f312b1f47a262ab92beac",
+        "android_client_info": {
+          "package_name": "com.example.anamaya"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7Bzy-yZgrXxvPbZs__ekW5yNCz466tik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

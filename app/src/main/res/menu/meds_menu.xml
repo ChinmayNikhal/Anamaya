@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_my_meds"
+        android:icon="@drawable/ic_my_meds"
+        android:title="My Medications" />
+
+    <item
+        android:id="@+id/nav_add_to_schedule"
+        android:icon="@drawable/ic_add_to_schedule"
+        android:title="Add to Schedule" />
+
+    <item
+        android:id="@+id/nav_order_new"
+        android:icon="@drawable/ic_order_new"
+        android:title="Order New" />
+
+    <item
+        android:id="@+id/nav_view_prescriptions"
+        android:icon="@drawable/ic_prescription"
+        android:title="View Prescriptions" />
+
+</menu>

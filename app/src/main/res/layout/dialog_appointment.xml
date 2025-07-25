@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_rectangle_outline"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvDialogTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Time: 10:30 AM"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/app_primary_teal"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:background="#7C7A7A" />
+
+            <TextView
+                android:id="@+id/tvDialogDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Date: 20 Jul 2025"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/app_primary_teal"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDialogDoctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Doctor: Dr. Smith"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/app_primary_teal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDialogSpecialization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Specialization: Cardiologist"
+            android:textColor="@color/app_secondary_text_dark_grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvDialogPurpose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Purpose: Follow-up"
+            android:textColor="@color/app_secondary_text_dark_grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvDialogNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Notes: Bring reports"
+            android:textColor="@color/app_secondary_text_dark_grey"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnDialogClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/teal_700"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Close"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+</ScrollView>

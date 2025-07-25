@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f2f2f2"
+    tools:context=".profile.FragmentSupport">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/support_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/support_section_title"
+        android:textColor="@color/app_primary_teal"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/roboto_mono"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Chat Support Option -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option_support_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_support_chat"
+                app:tint="@color/app_primary_teal"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/chat_icon_desc" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/support_chat"
+                android:textColor="@color/app_text_black"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_mono" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="@color/app_secondary_text_dark_grey"
+                android:contentDescription="@string/arrow_forward_desc" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Call Support Option -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option_support_call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_support_phone"
+                app:tint="@color/app_primary_teal"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/phone_icon_desc" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/support_contact_number"
+                android:textColor="@color/app_text_black"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_mono" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="@color/app_secondary_text_dark_grey"
+                android:contentDescription="@string/arrow_forward_desc" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Email Support Option -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option_support_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_support_email"
+                app:tint="@color/app_primary_teal"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/email_icon_desc" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/support_email"
+                android:textColor="@color/app_text_black"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_mono" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="@color/app_secondary_text_dark_grey"
+                android:contentDescription="@string/arrow_forward_desc" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- More help text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More ways to get help:"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_mono"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Frequently Asked Questions (FAQ)\n• Help Articles / Knowledge Base\n• Submit a Support Ticket"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_mono"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>

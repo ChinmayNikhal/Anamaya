@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_order_new"
+        android:icon="@drawable/ic_order_new"
+        android:title="Order New" />
+
+    <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/ic_checkout_cart"
+        android:title="Shopping Cart" />
+
+    <item
+        android:id="@+id/nav_my_orders"
+        android:icon="@drawable/ic_my_orders"
+        android:title="My orders" />
+
+    <item
+        android:id="@+id/nav_order_history"
+        android:icon="@drawable/ic_order_history"
+        android:title="Order History" />
+
+</menu>

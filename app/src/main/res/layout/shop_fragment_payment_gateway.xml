@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutPaymentGateway"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvPaymentGatewayLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:fontFamily="@font/roboto_mono"
+        android:gravity="center"
+        android:padding="5dp"
+        android:paddingBottom="12dp"
+        android:text="PAYMENT GATEWAY SIMULATION"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/app_primary_teal"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_payment_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simulate Payment Success"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btn_payment_failure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simulate Payment Failure"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+</LinearLayout>

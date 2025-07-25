@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/rounded_corner_teal_outline">
+
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order ID: #123456"
+        android:fontFamily="@font/roboto_mono"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tvOrderDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: 2025-07-18"
+        android:fontFamily="@font/roboto_mono"
+        android:textColor="@color/app_secondary_text_dark_grey" />
+
+    <TextView
+        android:id="@+id/tvOrderAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount: ₹820"
+        android:fontFamily="@font/roboto_mono"
+        android:textColor="@color/app_primary_teal" />
+
+    <!-- For My Orders -->
+    <TextView
+        android:id="@+id/tvOrderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name: Rahul"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvOrderArrivingDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Arrives: 2025-07-18"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:visibility="gone" />
+</LinearLayout>

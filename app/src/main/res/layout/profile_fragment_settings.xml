@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/settings_root_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- Change Profile Info -->
+        <LinearLayout
+            android:id="@+id/option_profile_info"
+            style="@style/ProfileListItem"
+            android:layout_height="90dp">
+
+            <ImageView
+                style="@style/ProfileListItemIcon"
+                android:src="@drawable/ic_info"
+                android:contentDescription="@string/my_info_description" />
+
+            <TextView
+                style="@style/ProfileListItemText"
+                android:text="Change Profile Info" />
+        </LinearLayout>
+        <View style="@style/ListItemDivider" />
+
+        <!-- Change Theme -->
+        <LinearLayout
+            android:id="@+id/option_theme_toggle"
+            style="@style/ProfileListItem"
+            android:layout_height="90dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/ProfileListItemIcon"
+                android:src="@android:drawable/ic_menu_manage"
+                android:contentDescription="Theme" />
+
+            <TextView
+                style="@style/ProfileListItemText"
+                android:text="Dark Theme" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Switch
+                android:id="@+id/theme_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View style="@style/ListItemDivider" />
+
+        <!-- Addresses -->
+        <LinearLayout
+            android:id="@+id/option_addresses"
+            style="@style/ProfileListItem"
+            android:layout_height="90dp">
+
+            <ImageView
+                style="@style/ProfileListItemIcon"
+                android:src="@android:drawable/ic_menu_mylocation"
+                android:contentDescription="Addresses" />
+
+            <TextView
+                style="@style/ProfileListItemText"
+                android:text="Addresses" />
+        </LinearLayout>
+        <View style="@style/ListItemDivider" />
+
+        <!-- Change Password -->
+        <LinearLayout
+            android:id="@+id/option_change_password"
+            style="@style/ProfileListItem"
+            android:layout_height="90dp">
+
+            <ImageView
+                style="@style/ProfileListItemIcon"
+                android:src="@drawable/ic_password"
+                android:contentDescription="Change Password" />
+
+            <TextView
+                style="@style/ProfileListItemText"
+                android:text="Change Password" />
+        </LinearLayout>
+        <View style="@style/ListItemDivider" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">Anamaya</string>
+    <string name="anamaya">अnamaya</string>
+
+    <string name="splash_tagline_text">An apple a day keeps the doctor away.</string>
+    <string name="get_started_button_text">Get Started</string>
+
+    <string name="notification_button_description">Notification button</string>
+    <string name="profile_picture_description">User Profile Picture</string>
+
+    <string name="my_info_description">My Information</string>
+    <string name="prescriptions_description">My Prescriptions</string>
+    <string name="notifications_description">App Notifications</string>
+    <string name="support_description">Contact Support</string>
+    <string name="settings_description">App Settings</string>
+    <string name="logout_description">Log out of the app</string>
+
+    <string name="back_button_description">Navigate back</string>
+    <string name="profile">Profile</string>
+    <string name="meds">Meds</string>
+    <string name="home">Home</string>
+    <string name="medicine_schedule">Medicine Schedule</string>
+    <string name="my_appointments">My Appointments</string>
+    <string name="my_appointments_today">My Appointments Today</string>
+    <string name="book_appointment">Book Appointment</string>
+
+    <!-- Strings for My Info Fragment -->
+    <string name="full_name_hint">Full Name</string>
+    <string name="email_label">Email</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="gender_label">Gender</string>
+    <string name="date_of_birth_label">Date of Birth</string>
+    <string name="blood_type_label">Blood Type</string>
+    <string name="allergies_hint">Allergies (e.g., Penicillin, Peanuts)</string>
+    <string name="medical_conditions_hint">Medical Conditions (e.g., Diabetes, Asthma)</string>
+    <string name="emergency_contact_name_hint">Emergency Contact Name</string>
+    <string name="emergency_contact_phone_hint">Emergency Contact Phone</string>
+    <string name="save_changes_button">Save Changes</string>
+    <string name="personal_details_section">Personal Details</string>
+    <string name="medical_details_section">Medical Details</string>
+    <string name="emergency_contact_section">Emergency Contact</string>
+    <string name="blood_types_array">heh,hehe</string>
+
+    <!-- Array for Blood Types Spinner -->
+    <string-array name="blood_types_array">
+        <item>Select Blood Type</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </string-array>
+
+    <!-- Strings for Support Fragment (NEW) -->
+    <string name="support_chat">Chat with Support</string>
+    <string name="support_contact_number">Call Support</string>
+    <string name="support_email">Email Support</string>
+    <string name="support_section_title">How Can We Help?</string>
+
+    <!-- Strings for Support Popups (NEW) -->
+    <string name="popup_chat_title">Live Chat</string>
+    <string name="popup_chat_content">Connecting you to a support agent. Please wait a moment...</string>
+    <string name="popup_contact_number_title">Contact Number</string>
+    <string name="popup_contact_number_content">Our support number is: +1 (800) 123-4567. Available 24/7.</string>
+    <string name="popup_email_title">Email Support</string>
+    <string name="popup_email_content">You can email us at support@anamaya.com. We aim to respond within 24 hours.</string>
+    <string name="popup_close_button">Close</string>
+    <string name="arrow_forward_desc">Forward</string>
+
+
+    <string name="chat_icon_desc">Chat Icon</string>
+    <string name="email_icon_desc">Email Icon</string>
+    <string name="phone_icon_desc">Phone Icon</string>
+
+    <!-- Strings for Settings Fragment (NEW) -->
+    <string name="settings_section_title">App Settings</string>
+    <string name="setting_change_profile_info">Change Profile Information</string>
+    <string name="setting_change_theme">Dark Mode</string>
+    <string name="setting_addresses">My Addresses</string>
+    <string name="setting_change_password">Change Password</string>
+    <string name="setting_privacy_policy">Privacy Policy</string>
+    <string name="setting_terms_of_service">Terms of Service</string>
+
+    <!-- Strings for Change Password Dialog (NEW) -->
+    <string name="dialog_change_password_title">Change Password</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="hint_confirm_new_password">Confirm New Password</string>
+    <string name="button_update_password">Update Password</string>
+    <string name="password_mismatch_error">New passwords do not match.</string>
+    <string name="password_update_success">Password updated successfully!</string>
+    <string name="password_update_failed">Failed to update password. Please check your old password.</string>
+
+    <!-- Strings for Addresses Dialog (NEW) -->
+    <string name="dialog_addresses_title">My Addresses</string>
+    <string name="button_add_new_address">Add New Address</string>
+    <string name="hint_address_line1">Address Line 1</string>
+    <string name="hint_address_line2">Address Line 2 (Optional)</string>
+    <string name="hint_city">City</string>
+    <string name="hint_state_province">State/Province</string>
+    <string name="hint_zip_postal_code">Zip/Postal Code</string>
+    <string name="hint_country">Country</string>
+    <string name="button_save_address">Save Address</string>
+    <string name="address_add_success">Address added successfully!</string>
+    <string name="address_fields_empty_error">Please fill all required address fields.</string>
+    <string name="no_addresses_yet">No addresses added yet. Click "Add New Address" to add one.</string>
+
+    <string name="ad_banner_desc">Advertisement banner</string>
+    <string name="my_meds_list">My medications List</string>
+    <string name="PrescriptionsList">Prescriptions List</string>
+    <string name="TodaysAppointmentsList">Todays appointments for user.</string>
+    <string name="ListofDoctors">List of Doctors searched</string>
+
+
+</resources>

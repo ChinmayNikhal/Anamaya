@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:paddingStart="2.5dp"
+    android:paddingEnd="2.5dp"
+    android:paddingBottom="5dp">
+
+    <!-- Top Bar - Consistent with activity_main.xml -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/top_banner_gradient"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/circle_image_background"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/sym_def_app_icon"
+            android:contentDescription="@string/profile_picture_description"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/welcome_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Welcome,"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="John Doe"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Notification Button - Positioned consistently with activity_main.xml -->
+    <ImageButton
+        android:id="@+id/notification_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:drawable/presence_online"
+        android:contentDescription="@string/notification_button_description"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_notifications"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_bar">
+
+        <LinearLayout
+            android:id="@+id/profile_options_root_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <!-- START: Member Options Container - Initially GONE -->
+            <LinearLayout
+                android:id="@+id/member_options_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible"> <!-- For design preview only -->
+
+                <LinearLayout
+                    android:id="@+id/option_my_info_member"
+                    style="@style/ProfileListItem"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        style="@style/ProfileListItemIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:contentDescription="@string/my_info_description"
+                        android:src="@drawable/ic_info" />
+
+                    <TextView
+                        style="@style/ProfileListItemText"
+                        android:text="My Info" />
+                </LinearLayout>
+
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_prescriptions_member"
+                    style="@style/ProfileListItem"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        style="@style/ProfileListItemIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:contentDescription="@string/prescriptions_description"
+                        android:src="@drawable/ic_prescription" />
+
+                    <TextView
+                        style="@style/ProfileListItemText"
+                        android:text="Prescriptions" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_notifications_member"
+                    style="@style/ProfileListItem"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        style="@style/ProfileListItemIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:contentDescription="@string/notifications_description"
+                        android:src="@drawable/ic_notifications" />
+
+                    <TextView
+                        style="@style/ProfileListItemText"
+                        android:text="Notifications" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_support_member"
+                    style="@style/ProfileListItem"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        style="@style/ProfileListItemIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:contentDescription="@string/support_description"
+                        android:src="@drawable/ic_support" />
+
+                    <TextView
+                        style="@style/ProfileListItemText"
+                        android:text="Support" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_settings_member"
+                    style="@style/ProfileListItem"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        style="@style/ProfileListItemIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:contentDescription="@string/settings_description"
+                        android:src="@drawable/ic_settings" />
+
+                    <TextView
+                        style="@style/ProfileListItemText"
+                        android:text="Settings" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_logout_member"
+                    style="@style/ProfileListItem"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        style="@style/ProfileListItemIcon"
+                        android:contentDescription="@string/logout_description"
+                        android:src="@drawable/ic_logout"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
+
+                    <TextView
+                        style="@style/ProfileListItemText"
+                        android:text="Logout" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+            </LinearLayout>
+            <!-- END: Member Options Container -->
+
+            <!-- START: Doctor Options Container - Initially GONE -->
+            <LinearLayout
+                android:id="@+id/doctor_options_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="gone"> <!-- For design preview only -->
+
+                <LinearLayout
+                    android:id="@+id/option_my_info_doctor"
+                    style="@style/ProfileListItem">
+                    <ImageView style="@style/ProfileListItemIcon" android:src="@drawable/ic_info" android:contentDescription="@string/my_info_description"/>
+                    <TextView style="@style/ProfileListItemText" android:text="My Info" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_notifications_doctor"
+                    style="@style/ProfileListItem">
+                    <ImageView style="@style/ProfileListItemIcon" android:src="@drawable/ic_notifications" android:contentDescription="@string/notifications_description"/>
+                    <TextView style="@style/ProfileListItemText" android:text="Notifications" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_support_doctor"
+                    style="@style/ProfileListItem">
+                    <ImageView style="@style/ProfileListItemIcon" android:src="@drawable/ic_support" android:contentDescription="@string/support_description"/>
+                    <TextView style="@style/ProfileListItemText" android:text="Support" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_settings_doctor"
+                    style="@style/ProfileListItem">
+                    <ImageView style="@style/ProfileListItemIcon" android:src="@drawable/ic_settings" android:contentDescription="@string/settings_description"/>
+                    <TextView style="@style/ProfileListItemText" android:text="Settings" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+                <LinearLayout
+                    android:id="@+id/option_logout_doctor"
+                    style="@style/ProfileListItem">
+                    <ImageView style="@style/ProfileListItemIcon" android:src="@drawable/ic_logout" android:contentDescription="@string/logout_description"/>
+                    <TextView style="@style/ProfileListItemText" android:text="Logout" />
+                </LinearLayout>
+                <View style="@style/ListItemDivider" />
+
+            </LinearLayout>
+            <!-- END: Doctor Options Container -->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation - Consistent with activity_main.xml -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bottom_nav_background"
+        android:elevation="10dp"
+        android:layerType="none"
+        android:paddingHorizontal="5dp"
+        android:paddingTop="5dp"
+        android:textAlignment="center"
+        app:itemIconSize="34dp"
+        app:itemIconTint="@color/white"
+        app:itemPaddingBottom="8dp"
+        app:itemPaddingTop="8dp"
+        app:itemRippleColor="#039BE5"
+        app:itemTextColor="@null"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/shop_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/orderNewMedsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/app_background_light_grey">
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/searchNewMeds"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/rounded_corner_teal_outline"
+        android:drawableStart="@drawable/ic_search"
+        android:drawableTint="@color/app_primary_teal"
+        android:fontFamily="@font/roboto_mono"
+        android:hint="Search medicines..."
+        android:inputType="text"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/app_secondary_text_dark_grey" />
+
+    <!-- Ad Banner Section -->
+    <ImageView
+        android:id="@+id/imageGalleryBanner"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_rectangle_outline"
+        android:clipToOutline="true"
+        android:contentDescription="@string/ad_banner_desc"
+        android:visibility="visible" />
+
+    <!-- Ad Banner Section -->
+    <ImageView
+        android:id="@+id/imageGalleryBanner2"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_rectangle_outline"
+        android:clipToOutline="true"
+        android:contentDescription="@string/ad_banner_desc"
+        android:visibility="visible" />
+
+    <!-- Scrollable list -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/resultsListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+</LinearLayout>

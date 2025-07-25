@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner_teal_outline">
+
+    <TextView
+        android:id="@+id/tvMedName"
+        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Medicine"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_mono" />
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Qty"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_mono" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="₹"
+        android:gravity="end"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_mono" />
+</LinearLayout>

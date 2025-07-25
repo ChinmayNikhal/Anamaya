@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_my_appointments"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/my_appointments" />
+
+    <item
+        android:id="@+id/nav_my_appointments_today"
+        android:icon="@drawable/ic_appointment_today"
+        android:title="@string/my_appointments_today" />
+
+    <item
+        android:id="@+id/nav_book_appointment"
+        android:icon="@drawable/ic_book_appointment"
+        android:title="@string/book_appointment" />
+
+    <item
+        android:id="@+id/nav_medicine_schedule"
+        android:icon="@drawable/ic_medicine_schedule"
+        android:title="@string/medicine_schedule" />
+
+</menu>

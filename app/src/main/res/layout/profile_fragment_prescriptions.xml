@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@android:color/white"
+    tools:context=".PrescriptionsFragment">
+
+    <TextView
+        android:id="@+id/prescriptions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prescriptions Fragment Content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/app_text_black"
+        android:fontFamily="@font/roboto_mono" />
+
+    <!-- Add your actual Prescriptions UI elements here -->
+
+</LinearLayout>

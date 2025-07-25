@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@drawable/rounded_rectangle_outline">
+
+    <TextView
+        android:id="@+id/tvMedName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:fontFamily="@font/roboto_mono"
+        android:text="Med Name"
+        android:textAlignment="center"
+        android:textColor="@color/app_secondary_text_dark_grey" />
+
+    <TextView
+        android:id="@+id/tvMedQty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/roboto_mono"
+        android:gravity="center"
+        android:text="Qty"
+        android:textAlignment="center"
+        android:textColor="@color/app_secondary_text_dark_grey" />
+
+    <TextView
+        android:id="@+id/tvMedPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/roboto_mono"
+        android:text="₹Price"
+        android:textAlignment="center"
+        android:textColor="@color/app_secondary_text_dark_grey" />
+</LinearLayout>
