@@ -113,6 +113,7 @@
     <string name="PrescriptionsList">Prescriptions List</string>
     <string name="TodaysAppointmentsList">Todays appointments for user.</string>
     <string name="ListofDoctors">List of Doctors searched</string>
+    <string name="professional_details_section">Professional Details</string>
 
 
 </resources>

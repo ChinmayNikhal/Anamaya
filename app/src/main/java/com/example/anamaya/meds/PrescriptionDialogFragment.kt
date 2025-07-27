@@ -14,6 +14,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.anamaya.`class`.Prescription
 import com.example.anamaya.databinding.DialogPrescriptionBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
 
 class PrescriptionDialogFragment : DialogFragment() {
@@ -24,6 +26,9 @@ class PrescriptionDialogFragment : DialogFragment() {
     private var prescription: Prescription? = null
     private var isViewMode: Boolean = true
     private var selectedImageUri: Uri? = null
+
+    val userUid = FirebaseAuth.getInstance().currentUser?.uid
+    val database = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,15 +110,45 @@ class PrescriptionDialogFragment : DialogFragment() {
         binding.btnCancel.setOnClickListener { dismiss() }
 
         binding.btnSave.setOnClickListener {
+
+            if (userUid == null) {
+                Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val newPrescription = Prescription(
                 date = binding.etDate.text.toString(),
                 doctorName = binding.etDoctor.text.toString(),
-                medications = listOf("DummyMed1", "DummyMed2"),
+                medications = listOf("DummyMed1", "DummyMed2"),  // Replace later
                 imageUri = selectedImageUri
             )
-            (parentFragment as? FragmentViewPrescriptions)?.addNewPrescription(newPrescription)
-            dismiss()
+
+
+            val prescriptionId = database.child("prescriptions").push().key ?: return@setOnClickListener
+
+            // Save imageUri as string temporarily
+            val prescriptionMap = hashMapOf(
+                "date" to newPrescription.date,
+                "doctorName" to newPrescription.doctorName,
+                "medications" to newPrescription.medications,
+                "imageUri" to (newPrescription.imageUri?.toString() ?: ""),
+                "ttl" to newPrescription.ttl
+            )
+
+            // Save under `prescriptions/{id}`
+            database.child("prescriptions").child(prescriptionId).setValue(prescriptionMap)
+                .addOnSuccessListener {
+                    // Link under user's record
+                    database.child("users").child(userUid).child("user_prescription").child(prescriptionId).setValue(true)
+                    Toast.makeText(requireContext(), "Prescription saved", Toast.LENGTH_SHORT).show()
+                    (parentFragment as? FragmentViewPrescriptions)?.addNewPrescription(newPrescription)
+                    dismiss()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
+                }
         }
+
 
         binding.btnAddMed.setOnClickListener {
             Toast.makeText(

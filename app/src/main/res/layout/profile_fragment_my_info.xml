@@ -38,6 +38,7 @@
                 android:id="@+id/my_info_full_name_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_rectangle_outline"
                 android:fontFamily="@font/roboto_mono"
                 android:inputType="textPersonName"
                 android:textColor="@color/app_secondary_text_dark_grey" />
@@ -47,11 +48,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/roboto_mono"
             android:text="@string/email_label"
             android:textColor="@color/app_text_black"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_mono"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/my_info_email_textview"
             android:layout_width="match_parent"
@@ -65,6 +66,16 @@
             tools:text="john.doe@example.com"/>
 
         <!-- Phone Number (Editable) -->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Phone Number"
+            android:textColor="@color/app_text_black"
+            android:textSize="16sp" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/my_info_phone_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -77,6 +88,7 @@
                 android:id="@+id/my_info_phone_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_rectangle_outline"
                 android:fontFamily="@font/roboto_mono"
                 android:inputType="phone"
                 android:textColor="@color/app_secondary_text_dark_grey" />
@@ -144,19 +156,29 @@
             android:textSize="16sp"
             android:fontFamily="@font/roboto_mono"
             android:layout_marginBottom="4dp"/>
+
         <Spinner
             android:id="@+id/my_info_blood_type_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_marginBottom="16dp"
-            android:spinnerMode="dropdown"
             android:background="@drawable/rounded_edittext_background"
             android:drawableEnd="@drawable/ic_arrow_drop_down"
-            />
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:spinnerMode="dropdown" />
 
 
         <!-- Allergies (Editable, Multi-line) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allergies"
+            android:textColor="@color/app_text_black"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_mono"
+            android:layout_marginBottom="4dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/my_info_allergies_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -169,6 +191,7 @@
                 android:id="@+id/my_info_allergies_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_rectangle_outline"
                 android:fontFamily="@font/roboto_mono"
                 android:gravity="top"
                 android:inputType="textMultiLine"
@@ -177,6 +200,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Medical Conditions (Editable, Multi-line) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medical Conditions"
+            android:textColor="@color/app_text_black"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_mono"
+            android:layout_marginBottom="4dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/my_info_medical_conditions_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -189,12 +221,101 @@
                 android:id="@+id/my_info_medical_conditions_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_rectangle_outline"
                 android:fontFamily="@font/roboto_mono"
                 android:gravity="top"
                 android:inputType="textMultiLine"
                 android:lines="3"
                 android:textColor="@color/app_secondary_text_dark_grey" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Professional Details Section (Visibility Gone by default) -->
+        <LinearLayout
+            android:id="@+id/professional_details_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"> <!-- Default visibility is GONE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="@string/professional_details_section"
+                android:textColor="@color/app_primary_teal"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Specialization (Non-editable, Display Only) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Specialization"
+                android:textColor="@color/app_text_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/my_info_specialization_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_rectangle_outline"
+                android:fontFamily="@font/roboto_mono"
+                android:padding="12dp"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey"
+                android:textSize="16sp"
+                tools:text="Cardiology" />
+
+            <!-- Medical License Number (Non-editable, Display Only) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Medical License"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/my_info_medical_license_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_rectangle_outline"
+                android:fontFamily="@font/roboto_mono"
+                android:padding="12dp"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textSize="16sp"
+                tools:text="LIC123456789" />
+
+            <!-- Medical Council (Non-editable, Display Only) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Medical Council"
+                android:textColor="@color/app_text_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/my_info_medical_council_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/rounded_rectangle_outline"
+                android:fontFamily="@font/roboto_mono"
+                android:padding="12dp"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textSize="16sp"
+                tools:text="Indian Medical Council" />
+
+        </LinearLayout>
 
         <!-- Emergency Contact Section -->
         <TextView
@@ -213,16 +334,22 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:hint="@string/emergency_contact_name_hint"
-            android:layout_marginBottom="16dp">
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/my_info_emergency_contact_name_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_rectangle_outline"
                 android:fontFamily="@font/roboto_mono"
                 android:inputType="textPersonName"
-                android:textColor="@color/app_secondary_text_dark_grey" />
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Emergency Contact Phone (Editable) -->
@@ -238,9 +365,11 @@
                 android:id="@+id/my_info_emergency_contact_phone_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_rectangle_outline"
                 android:fontFamily="@font/roboto_mono"
                 android:inputType="phone"
-                android:textColor="@color/app_secondary_text_dark_grey" />
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Save Changes Button -->
@@ -258,3 +387,4 @@
 
     </LinearLayout>
 </ScrollView>
+

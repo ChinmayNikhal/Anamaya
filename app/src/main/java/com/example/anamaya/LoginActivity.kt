@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.anamaya.`class`.UserSession
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -72,8 +73,6 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Log.d("LoginActivity", "Attempting login with Email: $email")
-
             firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -83,10 +82,11 @@ class LoginActivity : AppCompatActivity() {
                                 .addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         val userData = snapshot.value
-                                        Log.d("LoginActivity", "User data: $userData")
                                         userSession.setLoggedIn(true)
                                         Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
                                         finish()
                                     }
 
@@ -97,9 +97,9 @@ class LoginActivity : AppCompatActivity() {
                         }
                     } else {
                         Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                        Log.e("LoginActivity", "Login error", task.exception)
                     }
                 }
         }
+
     }
 }

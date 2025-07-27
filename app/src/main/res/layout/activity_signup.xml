@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center|start"
     android:background="@drawable/splash_background_gradient">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/signup_card"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,8 +26,8 @@
             android:backgroundTint="#EFFFFF"
             android:orientation="vertical"
             android:paddingVertical="12dp"
-            android:paddingStart="18dp"
-            android:paddingEnd="12dp">
+            android:paddingStart="20dp"
+            android:paddingEnd="18dp">
 
             <!-- Title -->
 
@@ -133,8 +134,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            android:background="@color/app_content_white"
+                            android:background="@drawable/rounded_rectangle_outline"
                             android:fontFamily="@font/roboto_mono"
+                            android:paddingHorizontal="5dp"
                             android:text="Male"
                             android:textColor="@color/app_primary_teal" />
 
@@ -143,8 +145,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            android:background="@color/app_content_white"
+                            android:background="@drawable/rounded_rectangle_outline"
                             android:fontFamily="@font/roboto_mono"
+                            android:paddingHorizontal="5dp"
                             android:text="Female"
                             android:textColor="@color/app_primary_teal" />
 
@@ -152,8 +155,9 @@
                             android:id="@+id/radio_other"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/app_content_white"
+                            android:background="@drawable/rounded_rectangle_outline"
                             android:fontFamily="@font/roboto_mono"
+                            android:paddingHorizontal="5dp"
                             android:text="Other"
                             android:textColor="@color/app_primary_teal" />
                     </RadioGroup>
@@ -383,7 +387,7 @@
                         android:text="Sign Up"
                         android:textColor="@color/app_content_white"
                         android:textSize="18sp"
-                        app:cornerRadius="8dp" />
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
             </ScrollView>
 

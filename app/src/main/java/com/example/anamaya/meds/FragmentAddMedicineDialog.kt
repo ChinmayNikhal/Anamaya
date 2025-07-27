@@ -57,8 +57,8 @@ class FragmentAddMedicineDialog(private val existingMedication: Medication? = nu
         if (existingMedication != null) {
             etName.setText(existingMedication.name)
             etQuantity.setText(existingMedication.quantity.toString())
-            tvManufacturer.text = "Manufacturer: ${existingMedication.manufacturer}"
-            tvDescription.text = "Description: ${existingMedication.description}"
+            tvManufacturer.text = "${existingMedication.manufacturer}"
+            tvDescription.text = "${existingMedication.description}"
             editButtons.visibility = View.VISIBLE
             addButtons.visibility = View.GONE
 

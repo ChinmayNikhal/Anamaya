@@ -38,8 +38,8 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Welcome,"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@android:color/white"
-                android:textSize="48sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -49,8 +49,8 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/roboto_mono"
                 android:text="John Doe"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@android:color/white"
-                android:textSize="48sp"
                 android:textStyle="bold" />
 
             <TextView

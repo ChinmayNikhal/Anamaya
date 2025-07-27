@@ -162,7 +162,13 @@ class SignupActivity : AppCompatActivity() {
                             "dob" to dob,
                             "phone" to phone,
                             "email" to email,
-                            "isDoctor" to isDoctor
+                            "isDoctor" to isDoctor,
+
+                            "bloodType" to "A+",
+                            "allergies" to "none",
+                            "medicalConditions" to "None",
+                            "emergencyContactName" to "Emergency Contact Name",
+                            "emergencyContactPhone" to ""
                         )
                         userMap.putAll(doctorFields)
 

@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.DialogFragment
+import com.example.anamaya.`class`.UserSession
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class GenericAlertDialogFragment : DialogFragment() {
 
     private var popupTitle: String? = null
     private var popupContent: String? = null
     private var mode: String = MODE_DEFAULT
+
+    private lateinit var userSession: UserSession
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +38,18 @@ class GenericAlertDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userSession = UserSession(requireContext())
+        firebaseAuth = FirebaseAuth.getInstance()
+
         val titleTextView = view.findViewById<TextView>(R.id.popup_title)
         val contentTextView = view.findViewById<TextView>(R.id.popup_content)
         val closeButton = view.findViewById<Button>(R.id.popup_close_button)
 
-        // Address fields
         val addressFieldsContainer = view.findViewById<LinearLayout>(R.id.address_fields_container)
         val address1Input = view.findViewById<EditText>(R.id.address_input_1)
         val address2Input = view.findViewById<EditText>(R.id.address_input_2)
         val address3Input = view.findViewById<EditText>(R.id.address_input_3)
 
-        // Password fields
         val passwordFieldsContainer = view.findViewById<LinearLayout>(R.id.password_fields_container)
         val passwordOldInput = view.findViewById<EditText>(R.id.password_input_old)
         val passwordNewInput = view.findViewById<EditText>(R.id.password_input_new)
@@ -57,29 +64,52 @@ class GenericAlertDialogFragment : DialogFragment() {
                 passwordFieldsContainer.visibility = View.GONE
                 contentTextView.visibility = View.GONE
 
-                // Dummy default values
-                address1Input.setText("123 Park Avenue, New York")
-                address2Input.setText("456 MG Road, Mumbai")
-                address3Input.setText("789 Oxford Street, London")
-
                 closeButton.text = "Save"
+
+                val uid = firebaseAuth.currentUser?.uid
+                if (uid == null) {
+                    Toast.makeText(requireContext(), "User not logged in!", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                val dbRef = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .getReference("users")
+                    .child(uid)
+                    .child("address")
+
+                // Load saved address if any
+                dbRef.get().addOnSuccessListener { snapshot ->
+                    address1Input.setText(snapshot.child("address1").getValue(String::class.java) ?: "")
+                    address2Input.setText(snapshot.child("address2").getValue(String::class.java) ?: "")
+                    address3Input.setText(snapshot.child("address3").getValue(String::class.java) ?: "")
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to load saved address", Toast.LENGTH_SHORT).show()
+                }
+
                 closeButton.setOnClickListener {
                     val addr1 = address1Input.text.toString()
                     val addr2 = address2Input.text.toString()
                     val addr3 = address3Input.text.toString()
 
-                    Toast.makeText(
-                        requireContext(),
-                        "Saved:\n$addr1\n$addr2\n$addr3",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    dismiss()
+                    val addressMap = mapOf(
+                        "address1" to addr1,
+                        "address2" to addr2,
+                        "address3" to addr3
+                    )
+
+                    dbRef.setValue(addressMap).addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Address saved successfully", Toast.LENGTH_SHORT).show()
+                        dismiss()
+                    }.addOnFailureListener {
+                        Toast.makeText(requireContext(), "Failed to save address", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
+
             MODE_CHANGE_PASSWORD -> {
-                passwordFieldsContainer.visibility = View.VISIBLE
                 addressFieldsContainer.visibility = View.GONE
+                passwordFieldsContainer.visibility = View.VISIBLE
                 contentTextView.visibility = View.GONE
                 closeButton.text = "Save"
 
@@ -90,27 +120,15 @@ class GenericAlertDialogFragment : DialogFragment() {
 
                     when {
                         oldPass.isBlank() || newPass.isBlank() || confirmPass.isBlank() -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please fill all fields",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
                         }
 
                         newPass != confirmPass -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Passwords do not match",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
                         }
 
                         else -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Password updated successfully!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(requireContext(), "Password updated successfully!", Toast.LENGTH_SHORT).show()
                             dismiss()
                         }
                     }
@@ -118,7 +136,6 @@ class GenericAlertDialogFragment : DialogFragment() {
             }
 
             else -> {
-                // Default info-only dialog
                 addressFieldsContainer.visibility = View.GONE
                 passwordFieldsContainer.visibility = View.GONE
                 contentTextView.visibility = View.VISIBLE
@@ -130,10 +147,7 @@ class GenericAlertDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     companion object {
