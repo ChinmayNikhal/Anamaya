@@ -31,6 +31,10 @@ class FragmentMyInfo : Fragment() {
     private lateinit var emergencyContactPhoneEditText: TextInputEditText
 
     private lateinit var professionalSection: ViewGroup
+    private lateinit var specializationTextView: TextView
+    private lateinit var licenseTextView: TextView
+    private lateinit var councilTextView: TextView
+
     private lateinit var saveChangesButton: Button
 
     // Firebase
@@ -67,6 +71,10 @@ class FragmentMyInfo : Fragment() {
         emergencyContactPhoneEditText = view.findViewById(R.id.my_info_emergency_contact_phone_edittext)
 
         professionalSection = view.findViewById(R.id.professional_details_section)
+        specializationTextView = view.findViewById(R.id.my_info_specialization_textview)
+        licenseTextView = view.findViewById(R.id.my_info_medical_license_textview)
+        councilTextView = view.findViewById(R.id.my_info_medical_council_textview)
+
         saveChangesButton = view.findViewById(R.id.my_info_save_changes_button)
 
         setupBloodTypeSpinner()
@@ -125,7 +133,19 @@ class FragmentMyInfo : Fragment() {
                 if (index >= 0) bloodTypeSpinner.setSelection(index)
 
                 // Doctor visibility
-                professionalSection.visibility = if (isDoctor) View.VISIBLE else View.GONE
+                if (isDoctor) {
+                    professionalSection.visibility = View.VISIBLE
+
+                    val specialization = snapshot.child("specialization").getValue(String::class.java) ?: "N/A"
+                    val license = snapshot.child("license").getValue(String::class.java) ?: "N/A"
+                    val council = snapshot.child("council").getValue(String::class.java) ?: "N/A"
+
+                    specializationTextView.text = specialization
+                    licenseTextView.text = license
+                    councilTextView.text = council
+                } else {
+                    professionalSection.visibility = View.GONE
+                }
 
                 Log.d("MyInfo", "Loaded from Firebase for $uid: $fullName, $email")
             }

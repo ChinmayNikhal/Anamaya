@@ -40,11 +40,10 @@ class SignupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_signup)
 
         auth = FirebaseAuth.getInstance()
-
         val database = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
         val dbRef = database.reference
 
-        // UI references
+        // UI References
         memberOptionTv = findViewById(R.id.member_option_tv)
         doctorOptionTv = findViewById(R.id.doctor_option_tv)
         doctorFieldsContainer = findViewById(R.id.doctor_fields_container)
@@ -135,7 +134,7 @@ class SignupActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val doctorFields = mutableMapOf<String, String>()
+            val doctorFields = mutableMapOf<String, Any>()
             if (isDoctor) {
                 val license = medicalLicenseInputEditText.text.toString().trim()
                 val specialization = specializationInputAutoComplete.text.toString().trim()
@@ -151,7 +150,6 @@ class SignupActivity : AppCompatActivity() {
                 doctorFields["council"] = council
             }
 
-            // Firebase signup
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -164,16 +162,31 @@ class SignupActivity : AppCompatActivity() {
                             "email" to email,
                             "isDoctor" to isDoctor,
 
+                            // Default values
                             "bloodType" to "A+",
                             "allergies" to "none",
-                            "medicalConditions" to "None",
+                            "medicalConditions" to "none",
                             "emergencyContactName" to "Emergency Contact Name",
-                            "emergencyContactPhone" to ""
+                            "emergencyContactPhone" to "0000000000",
+
+                            // Placeholder for related paths
+                            "user_prescription" to mapOf("dummy_prescription_id" to true),
+                            "user_meds" to mapOf("dummy_med_id" to true)
                         )
+
                         userMap.putAll(doctorFields)
 
                         dbRef.child("users").child(uid).setValue(userMap)
                             .addOnSuccessListener {
+                                // Add to doctors node if doctor
+                                if (isDoctor) {
+                                    val doctorEntry = mapOf(
+                                        "fullName" to fullName,
+                                        "specialization" to doctorFields["specialization"].toString()
+                                    )
+                                    dbRef.child("doctors").child(uid).setValue(doctorEntry)
+                                }
+
                                 Toast.makeText(this, "Signup successful", Toast.LENGTH_SHORT).show()
                                 startActivity(Intent(this, LoginActivity::class.java))
                                 finish()
@@ -187,7 +200,6 @@ class SignupActivity : AppCompatActivity() {
                 }
         }
 
-        // Login redirect
         loginRedirectTv.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()

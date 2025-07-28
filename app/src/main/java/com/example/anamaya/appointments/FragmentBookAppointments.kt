@@ -1,8 +1,8 @@
 package com.example.anamaya.appointments
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,11 @@ import androidx.fragment.app.Fragment
 import com.example.anamaya.R
 import com.example.anamaya.`class`.Doctor
 import com.example.anamaya.databinding.AppointmentsFragmentBookAppointmentsBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 class FragmentBookAppointments : Fragment() {
@@ -21,7 +26,10 @@ class FragmentBookAppointments : Fragment() {
 
     private var selectedDate = ""
     private var selectedTime = ""
-    private var selectedDoctor: Doctor? = null
+    private var selectedDoctorUid: String? = null
+    private var selectedDoctorDetails: Doctor? = null
+
+    private val user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,52 +45,124 @@ class FragmentBookAppointments : Fragment() {
         binding.tvSelectedTime.setOnClickListener { openTimePicker() }
 
         binding.btnSearchDoctor.setOnClickListener {
-            val dummyDoctors = listOf(
-                Doctor("Dr. A. Patel", "ENT", "Delhi", 10, 4.7),
-                Doctor("Dr. B. Verma", "Cardiologist", "Mumbai", 15, 4.9),
-                Doctor("Dr. C. Khan", "Ophthalmologist", "Kolkata", 8, 4.5),
-                Doctor("Dr. D. Singh", "Orthopedic", "Delhi", 12, 4.6),
-                Doctor("Dr. E. Reddy", "Pediatrician", "Bangalore", 6, 4.3),
-            )
-
-            SearchDoctorDialogFragment(dummyDoctors) { selected ->
-                selectedDoctor = selected
-                binding.tvSelectedDoctor.text = "Selected: ${selectedDoctor?.name} (${selectedDoctor?.specialization})"
-            }.show(parentFragmentManager, "SearchDoctorDialog")
+            val dialog = SearchDoctorDialogFragment { doctor, uid ->
+                selectedDoctorUid = uid
+                selectedDoctorDetails = doctor
+                binding.tvSelectedDoctor.text =
+                    "Selected: ${doctor.name} (${doctor.specialization})"
+            }
+            dialog.show(parentFragmentManager, "SearchDoctorDialog")
         }
 
         binding.btnCheckAvailability.setOnClickListener {
-            if (selectedDate.isBlank() || selectedTime.isBlank()) {
-                Toast.makeText(requireContext(), "Please select date and time first", Toast.LENGTH_SHORT).show()
+            if (selectedDate.isBlank() || selectedTime.isBlank() || selectedDoctorUid.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please select doctor, date and time", Toast.LENGTH_SHORT).show()
                 binding.tvAvailabilityResult.visibility = View.GONE
-            } else {
-                val available = selectedTime.endsWith("00") || selectedTime.endsWith("30")
-                binding.tvAvailabilityResult.apply {
-                    text = if (available) "Available to Book" else "Not available, check other time"
-                    setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            if (available) R.color.green else R.color.red
-                        )
-                    )
-                    visibility = View.VISIBLE
-                }
-            }
-        }
-
-        binding.btnBookAppointment.setOnClickListener {
-            if (selectedDoctor == null) {
-                Toast.makeText(requireContext(), "Please select a doctor first", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Future: Save to DB or API
-            Toast.makeText(
-                requireContext(),
-                "Booking ${selectedDoctor?.name} on $selectedDate at $selectedTime",
-                Toast.LENGTH_SHORT
-            ).show()
+            val key = selectedTime.replace(":", "_") + "_" + selectedDate.replace("-", "_")
+            val doctorUid = selectedDoctorUid!!
+
+            val dbRef = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("users")
+                .child(doctorUid)
+
+            val appointmentRequestsRef = dbRef.child("appointment_requests").child(key)
+            val userAppointmentsRef = dbRef.child("user_appointments").child(key)
+            val patientAppointmentsRef = dbRef.child("patient_appointments").child(key)
+
+            appointmentRequestsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot1: DataSnapshot) {
+                    if (snapshot1.exists()) {
+                        showAvailability(false)
+                    } else {
+                        userAppointmentsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot2: DataSnapshot) {
+                                if (snapshot2.exists()) {
+                                    showAvailability(false)
+                                } else {
+                                    patientAppointmentsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(snapshot3: DataSnapshot) {
+                                            if (snapshot3.exists()) {
+                                                showAvailability(false)
+                                            } else {
+                                                showAvailability(true)
+                                            }
+                                        }
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            Log.e("CheckAvail", "Error (patient_appointments): ${error.message}")
+                                            Toast.makeText(requireContext(), "Error checking availability", Toast.LENGTH_SHORT).show()
+                                        }
+                                    })
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.e("CheckAvail", "Error (user_appointments): ${error.message}")
+                                Toast.makeText(requireContext(), "Error checking availability", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("CheckAvail", "Error (appointment_requests): ${error.message}")
+                    Toast.makeText(requireContext(), "Error checking availability", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
+
+        binding.btnBookAppointment.setOnClickListener {
+            if (selectedDate.isBlank() || selectedTime.isBlank() || selectedDoctorUid.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please select doctor, date and time", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val key = selectedTime.replace(":", "_") + "_" + selectedDate.replace("-", "_")
+            val doctorUid = selectedDoctorUid!!
+
+            // Assume you already have current user's name and UID
+            val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: return@setOnClickListener
+            val dbRootRef = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("users")
+
+            dbRootRef.child(currentUserUid).get().addOnSuccessListener { snapshot ->
+                val patientName = snapshot.child("fullName").value?.toString() ?: "Unknown"
+                val gender = snapshot.child("gender").value?.toString() ?: "Unknown"
+                val allergies = snapshot.child("allergies").value?.toString() ?: "None"
+                val medicalConditions = snapshot.child("medical_conditions").value?.toString() ?: "None"
+                val dob = snapshot.child("dob").value?.toString() ?: "01/01/2000"
+                val age = calculateAge(dob)
+
+                val requestData = mapOf(
+                    "date" to selectedDate,
+                    "time" to selectedTime,
+                    "patient_name" to patientName,
+                    "patient_uid" to currentUserUid,
+                    "age" to age,
+                    "gender" to gender,
+                    "allergies" to allergies,
+                    "medical_conditions" to medicalConditions,
+                    "notes" to binding.etPurpose.text.toString().trim()
+                )
+
+                dbRootRef.child(doctorUid)
+                    .child("appointment_requests")
+                    .child(key)
+                    .setValue(requestData)
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Appointment request sent!", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(requireContext(), "Failed to send request", Toast.LENGTH_SHORT).show()
+                    }
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), "Could not fetch patient info", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     private fun openDatePicker() {
@@ -101,20 +181,83 @@ class FragmentBookAppointments : Fragment() {
     }
 
     private fun openTimePicker() {
-        val calendar = Calendar.getInstance()
-        TimePickerDialog(
-            requireContext(),
-            { _, hourOfDay, minute ->
-                val roundedMinute = (minute / 15) * 15
-                selectedTime = String.format("%02d:%02d", hourOfDay, roundedMinute)
-                binding.tvSelectedTime.text = selectedTime
-                binding.tvAvailabilityResult.visibility = View.GONE
-            },
-            calendar.get(Calendar.HOUR_OF_DAY),
-            0,
-            true
-        ).show()
+        val dialog = TimeSlotPickerDialogFragment { time ->
+            selectedTime = time
+            binding.tvSelectedTime.text = selectedTime
+            binding.tvAvailabilityResult.visibility = View.GONE
+        }
+        dialog.show(parentFragmentManager, "TimeSlotPicker")
     }
+
+    private fun showAvailability(available: Boolean) {
+        binding.tvAvailabilityResult.apply {
+            text = if (available) "Available to Book" else "Not available, check other time"
+            setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (available) R.color.green else R.color.red
+                )
+            )
+            visibility = View.VISIBLE
+        }
+    }
+
+    fun calculateAge(dob: String): Int {
+        // Format: DD/MM/YYYY
+        val parts = dob.split("/")
+        if (parts.size != 3) return 0
+        val birthDay = parts[0].toInt()
+        val birthMonth = parts[1].toInt()
+        val birthYear = parts[2].toInt()
+
+        val today = java.util.Calendar.getInstance()
+        var age = today.get(java.util.Calendar.YEAR) - birthYear
+
+        if (today.get(java.util.Calendar.MONTH) + 1 < birthMonth ||
+            (today.get(java.util.Calendar.MONTH) + 1 == birthMonth && today.get(java.util.Calendar.DAY_OF_MONTH) < birthDay)) {
+            age--
+        }
+
+        return age
+    }
+
+
+
+    private fun uploadDummyAppointmentRequest() {
+        val doctorUid = "N7QpVLfMdhPzYQvqzkyZ8znCKmg2"
+        val patientUid = "test_patient_uid"
+        val patientName = "John Doe"
+        val appointmentDate = "28/07/2025"
+        val appointmentTime = "10:30"
+        val timeKey = "10_30_28_07_2025"
+
+        val appointmentData = mapOf(
+            "date" to appointmentDate,
+            "time" to appointmentTime,
+            "patient_name" to patientName,
+            "age" to "25",
+            "gender" to "Male",
+            "allergies" to "None",
+            "medical_conditions" to "Asthma",
+            "notes" to "Needs routine checkup",
+            "uid" to patientUid
+        )
+
+        val dbRef = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("users")
+            .child(doctorUid)
+            .child("appointment_requests")
+            .child(timeKey)
+
+        dbRef.setValue(appointmentData)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Dummy appointment uploaded", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

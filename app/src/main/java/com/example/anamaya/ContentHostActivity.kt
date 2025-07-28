@@ -24,6 +24,7 @@ import com.example.anamaya.appointments.FragmentMyAppointments
 import com.example.anamaya.appointments.FragmentBookAppointments
 import com.example.anamaya.appointments.FragmentMyAppointmentsToday
 import com.example.anamaya.appointments.FragmentMedicineSchedule
+import com.example.anamaya.appointments.FragmentDoctorRequests
 import com.example.anamaya.shop.FragmentOrderResult
 import com.example.anamaya.shop.FragmentPaymentGateway
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -70,7 +71,8 @@ class ContentHostActivity : AppCompatActivity() {
         const val FRAGMENT_APPOINTMENTS_MY_APPOINTMENTS = "FragmentMyAppointments"
         const val FRAGMENT_APPOINTMENTS_BOOK_APPOINTMENTS = "FragmentBookAppointments"
         const val FRAGMENT_APPOINTMENTS_MY_APPOINTMENTS_TODAY = "FragmentMyAppointmentsToday"
-        const val FRAGMENT_APPOINTMENTS_MEDICINE_SCHEDULE = "FragmentMedicineSchedule"
+//        const val FRAGMENT_APPOINTMENTS_MEDICINE_SCHEDULE = "FragmentMedicineSchedule"
+        const val FRAGMENT_APPOINTMENTS_DOCTOR_REQUESTS = "FragmentDoctorRequests"
 
         // Placeholder fragment name for main dashboard (if needed as a fragment)
         const val FRAGMENT_MAIN_DASHBOARD = "MainDashboardFragment"
@@ -96,7 +98,8 @@ class ContentHostActivity : AppCompatActivity() {
         R.id.nav_my_appointments to Pair(FRAGMENT_APPOINTMENTS_MY_APPOINTMENTS, "My Appointments"),
         R.id.nav_my_appointments_today to Pair(FRAGMENT_APPOINTMENTS_MY_APPOINTMENTS_TODAY, "Appointments Today"),
         R.id.nav_book_appointment to Pair(FRAGMENT_APPOINTMENTS_BOOK_APPOINTMENTS, "Book Appointment"),
-        R.id.nav_medicine_schedule to Pair(FRAGMENT_APPOINTMENTS_MEDICINE_SCHEDULE, "Medicine Schedule")
+//        R.id.nav_medicine_schedule to Pair(FRAGMENT_APPOINTMENTS_MEDICINE_SCHEDULE, "Medicine Schedule"),
+        R.id.nav_doctor_requests to Pair(FRAGMENT_APPOINTMENTS_DOCTOR_REQUESTS, "Doctor Requests")
     )
 
     private val shopFragmentMap = mapOf(
@@ -263,7 +266,8 @@ class ContentHostActivity : AppCompatActivity() {
             FRAGMENT_APPOINTMENTS_MY_APPOINTMENTS -> FragmentMyAppointments()
             FRAGMENT_APPOINTMENTS_BOOK_APPOINTMENTS -> FragmentBookAppointments()
             FRAGMENT_APPOINTMENTS_MY_APPOINTMENTS_TODAY -> FragmentMyAppointmentsToday()
-            FRAGMENT_APPOINTMENTS_MEDICINE_SCHEDULE -> FragmentMedicineSchedule()
+//            FRAGMENT_APPOINTMENTS_MEDICINE_SCHEDULE -> FragmentMedicineSchedule()
+            FRAGMENT_APPOINTMENTS_DOCTOR_REQUESTS -> FragmentDoctorRequests()
 
             else -> null
         }

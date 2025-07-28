@@ -44,8 +44,6 @@ class HomeActivity : AppCompatActivity() {
         imageGalleryBanner = findViewById(R.id.image_gallery_banner)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        btnDoctors = findViewById(R.id.btn_doctors)
-        btnOrderedMeds = findViewById(R.id.btn_ordered_meds)
         btnChat = findViewById(R.id.btn_chat)
         btnPharmacySearch = findViewById(R.id.btn_pharmacy_search)
         btnMedsSchedule = findViewById(R.id.btn_meds_schedule)

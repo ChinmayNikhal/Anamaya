@@ -15,8 +15,8 @@
         android:title="@string/book_appointment" />
 
     <item
-        android:id="@+id/nav_medicine_schedule"
-        android:icon="@drawable/ic_medicine_schedule"
-        android:title="@string/medicine_schedule" />
+        android:id="@+id/nav_doctor_requests"
+        android:icon="@drawable/ic_doc_req"
+        android:title="Doctor Requests" />
 
 </menu>

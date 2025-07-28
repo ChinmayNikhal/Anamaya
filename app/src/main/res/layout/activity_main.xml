@@ -97,9 +97,10 @@
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="5dp"
+        android:background="@drawable/rounded_rectangle_outline"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,103 +117,85 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <Button
-                    android:id="@+id/btn_doctors"
-                    style="@style/TileButton"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/button_gradient_background"
-                    android:fontFamily="@font/roboto_mono"
-                    android:gravity="center_horizontal"
-                    android:text="Doctors"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_ordered_meds"
-                    style="@style/TileButton"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="10dp"
-                    android:fontFamily="@font/roboto_mono"
-                    android:gravity="center_horizontal"
-                    android:text="Ordered Medicine"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
+                android:minHeight="100dp"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
                 <Button
                     android:id="@+id/btn_chat"
                     style="@style/TileButton"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/rounded_dashed_rectangle"
+                    android:backgroundTint="@color/app_content_white"
+                    android:backgroundTintMode="multiply"
                     android:fontFamily="@font/roboto_mono"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
                     android:text="Chat"
-                    android:textColor="#FFFFFF"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/app_primary_teal"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_pharmacy_search"
                     style="@style/TileButton"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/rounded_dashed_rectangle"
+                    android:backgroundTint="@color/app_content_white"
+                    android:backgroundTintMode="multiply"
                     android:fontFamily="@font/roboto_mono"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
                     android:text="Pharmacy Search"
-                    android:textColor="#FFFFFF"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/app_primary_teal"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
+                android:minHeight="100dp"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
                 <Button
                     android:id="@+id/btn_meds_schedule"
                     style="@style/TileButton"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/rounded_dashed_rectangle"
+                    android:backgroundTint="@color/app_content_white"
+                    android:backgroundTintMode="multiply"
                     android:fontFamily="@font/roboto_mono"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
                     android:text="Meds Schedule"
-                    android:textColor="#FFFFFF"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/app_primary_teal"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_view_prescriptions"
                     style="@style/TileButton"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/rounded_dashed_rectangle"
+                    android:backgroundTint="@color/app_content_white"
+                    android:backgroundTintMode="multiply"
                     android:fontFamily="@font/roboto_mono"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
                     android:text="View Prescriptions"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/app_primary_teal"
                     android:textStyle="bold" />
             </LinearLayout>
 

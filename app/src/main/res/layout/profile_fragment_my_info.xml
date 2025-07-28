@@ -254,7 +254,7 @@
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Specialization"
-                android:textColor="@color/app_text_black"
+                android:textColor="@color/app_secondary_text_dark_grey"
                 android:textSize="16sp" />
 
             <TextView
@@ -290,6 +290,7 @@
                 android:fontFamily="@font/roboto_mono"
                 android:padding="12dp"
                 android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey"
                 android:textSize="16sp"
                 tools:text="LIC123456789" />
 
@@ -300,7 +301,7 @@
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Medical Council"
-                android:textColor="@color/app_text_black"
+                android:textColor="@color/app_secondary_text_dark_grey"
                 android:textSize="16sp" />
 
             <TextView
@@ -312,6 +313,7 @@
                 android:fontFamily="@font/roboto_mono"
                 android:padding="12dp"
                 android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey"
                 android:textSize="16sp"
                 tools:text="Indian Medical Council" />
 
