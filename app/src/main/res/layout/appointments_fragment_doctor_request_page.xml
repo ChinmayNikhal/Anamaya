@@ -11,11 +11,12 @@
         android:id="@+id/tvDoctorRequestHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/roboto_mono"
         android:text="Appointment Requests"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:textColor="@color/app_primary_teal"
-        android:layout_marginBottom="12dp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"

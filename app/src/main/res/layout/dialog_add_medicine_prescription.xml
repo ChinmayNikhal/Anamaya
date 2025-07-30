@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="?attr/selectableItemBackground"
+    android:padding="0.1dp">
+
+    <LinearLayout
+        android:id="@+id/dialogRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_rectangle_outline"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/etMedicineName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_teal_outline"
+                android:fontFamily="@font/roboto_mono"
+                android:hint="Medicine name"
+                android:padding="12dp"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textColorHint="@color/app_secondary_text_dark_grey" />
+
+            <ImageButton
+                android:id="@+id/btnSearchMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Search"
+                android:minHeight="48dp"
+                android:padding="10dp"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="@color/teal_700" />
+        </LinearLayout>
+
+        <!-- Quantity Picker -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Quantity:"
+                android:textColor="@color/teal_700"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnQuantityMinus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:maxWidth="60dp"
+                android:maxHeight="60dp"
+                android:minHeight="48dp"
+                android:text="−"
+                app:iconPadding="0dp" />
+
+            <EditText
+                android:id="@+id/etQuantity"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:background="@drawable/rounded_corner_teal_outline"
+                android:fontFamily="@font/roboto_mono"
+                android:gravity="center"
+                android:inputType="number"
+                android:minHeight="48dp"
+                android:text="1"
+                android:textColor="@color/app_primary_teal" />
+
+            <Button
+                android:id="@+id/btnQuantityPlus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:maxWidth="60dp"
+                android:maxHeight="60dp"
+                android:minHeight="48dp"
+                android:text="+"
+                app:iconPadding="0dp" />
+        </LinearLayout>
+
+        <!-- Time Picker -->
+        <Button
+            android:id="@+id/btnPickTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Select Time"
+            app:cornerRadius="10dp" />
+
+        <!-- Food Timing -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="When to take:"
+            android:textColor="@color/teal_700"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgFoodTiming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbBeforeEating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Before Eating"
+                android:textColor="@color/app_secondary_text_dark_grey" />
+
+            <RadioButton
+                android:id="@+id/rbAfterEating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="After Eating"
+                android:textColor="@color/app_secondary_text_dark_grey" />
+        </RadioGroup>
+
+        <!-- Confirm & Cancel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="@android:color/white"
+                app:cornerRadius="10dp" />
+
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_700"
+                android:text="Add"
+                android:textColor="@android:color/white"
+                app:cornerRadius="10dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

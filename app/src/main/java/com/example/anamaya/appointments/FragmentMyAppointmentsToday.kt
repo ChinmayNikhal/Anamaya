@@ -1,5 +1,6 @@
 package com.example.anamaya.appointments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,10 +39,26 @@ class FragmentMyAppointmentsToday : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchTodayAppointments()
+        checkUserTypeAndLoadAppointments()
     }
 
-    private fun fetchTodayAppointments() {
+    private fun checkUserTypeAndLoadAppointments() {
+        dbRef.child(userUid).child("type")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val userType = snapshot.getValue(String::class.java)
+                    if (userType == "Doctor") {
+                        loadDoctorAppointments()
+                    } else {
+                        loadUserAppointments()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
+    }
+
+    private fun loadUserAppointments() {
         val todayFormatted = SimpleDateFormat("dd_MM_yyyy", Locale.getDefault()).format(Date())
 
         dbRef.child(userUid).child("user_appointments")
@@ -52,16 +69,19 @@ class FragmentMyAppointmentsToday : Fragment() {
 
                     for (snap in snapshot.children) {
                         val key = snap.key ?: continue
-                        if (!key.endsWith(todayFormatted)) continue
+                        val parts = key.split("_")
+                        if (parts.size < 5) continue
 
-                        val value = snap.value as? Map<*, *> ?: continue
-                        val time = key.split("_").take(2).joinToString(":")
-                        val date = key.split("_").drop(2).joinToString("-")
+                        val keyFormatted = "${parts[4]}_${parts[3]}_${parts[2]}"
+                        if (keyFormatted != todayFormatted) continue
 
-                        val doctor = value["doctor"] as? String ?: "Unknown"
-                        val specialization = value["specialization"] as? String ?: "-"
-                        val purpose = value["purpose"] as? String ?: "-"
-                        val notes = value["notes"] as? String ?: "-"
+                        val time = "${parts[0]}:${parts[1]}"
+                        val date = "${parts[4]}-${parts[3]}-${parts[2]}"
+
+                        val doctor = snap.child("doctor").getValue(String::class.java) ?: "Unknown"
+                        val specialization = snap.child("specialization").getValue(String::class.java) ?: "-"
+                        val purpose = snap.child("purpose").getValue(String::class.java) ?: "-"
+                        val notes = snap.child("notes").getValue(String::class.java) ?: "-"
 
                         appointmentsToday.add(
                             Appointment(
@@ -75,16 +95,60 @@ class FragmentMyAppointmentsToday : Fragment() {
                         )
                     }
 
-                    showAppointments()
+                    showAppointments(isDoctor = false)
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle error gracefully if needed
-                }
+                override fun onCancelled(error: DatabaseError) {}
             })
     }
 
-    private fun showAppointments() {
+    private fun loadDoctorAppointments() {
+        val todayFormatted = SimpleDateFormat("dd_MM_yyyy", Locale.getDefault()).format(Date())
+
+        dbRef.child(userUid).child("patient_appointments")
+            .orderByKey()
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    appointmentsToday.clear()
+
+                    for (snap in snapshot.children) {
+                        val key = snap.key ?: continue
+                        val parts = key.split("_")
+                        if (parts.size < 5) continue
+
+                        val keyFormatted = "${parts[4]}_${parts[3]}_${parts[2]}"
+                        if (keyFormatted != todayFormatted) continue
+
+                        val time = "${parts[0]}:${parts[1]}"
+                        val date = "${parts[4]}-${parts[3]}-${parts[2]}"
+
+                        val patientName = snap.child("patient_name").getValue(String::class.java) ?: "Unknown"
+                        val purpose = snap.child("notes").getValue(String::class.java) ?: "-"
+                        val gender = snap.child("gender").getValue(String::class.java) ?: "-"
+                        val age = snap.child("age").getValue(Int::class.java)?.toString() ?: "-"
+                        val allergies = snap.child("allergies").getValue(String::class.java) ?: "-"
+                        val conditions = snap.child("medical_conditions").getValue(String::class.java) ?: "-"
+
+                        appointmentsToday.add(
+                            Appointment(
+                                time = time,
+                                date = date,
+                                doctor = patientName, // Using `doctor` field to show patient name
+                                specialization = "Age: $age | Gender: $gender",
+                                purpose = purpose,
+                                notes = "Allergies: $allergies\nConditions: $conditions"
+                            )
+                        )
+                    }
+
+                    showAppointments(isDoctor = true)
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
+    }
+
+    private fun showAppointments(isDoctor: Boolean) {
         binding.appointmentsContainer.removeAllViews()
 
         if (appointmentsToday.isEmpty()) {
@@ -105,6 +169,10 @@ class FragmentMyAppointmentsToday : Fragment() {
 
             timeView.text = appointment.time
             doctorView.text = appointment.doctor
+
+            if (isDoctor) {
+                doctorView.setTextColor(Color.parseColor("#ADD8E6")) // Light Blue
+            }
 
             itemView.setOnClickListener {
                 AppointmentDialogFragment.newInstance(appointment)

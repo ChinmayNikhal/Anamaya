@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/rounded_corner_teal_outline"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvMedName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Paracetamol 320mg"
+        android:textSize="16sp"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:textStyle="bold"
+        android:fontFamily="@font/roboto_mono" />
+
+    <TextView
+        android:id="@+id/tvAmountAndMeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Amount: 2 pcs | Meal: After"
+        android:textSize="14sp"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:fontFamily="@font/roboto_mono" />
+
+    <TextView
+        android:id="@+id/tvDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Days: Mon, Tue, Wed"
+        android:textSize="14sp"
+        android:textColor="@color/app_secondary_text_dark_grey"
+        android:fontFamily="@font/roboto_mono" />
+</LinearLayout>

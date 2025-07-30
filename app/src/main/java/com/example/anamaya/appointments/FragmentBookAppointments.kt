@@ -146,6 +146,7 @@ class FragmentBookAppointments : Fragment() {
                     "allergies" to allergies,
                     "medical_conditions" to medicalConditions,
                     "notes" to binding.etPurpose.text.toString().trim()
+
                 )
 
                 dbRootRef.child(doctorUid)
@@ -220,44 +221,6 @@ class FragmentBookAppointments : Fragment() {
 
         return age
     }
-
-
-
-    private fun uploadDummyAppointmentRequest() {
-        val doctorUid = "N7QpVLfMdhPzYQvqzkyZ8znCKmg2"
-        val patientUid = "test_patient_uid"
-        val patientName = "John Doe"
-        val appointmentDate = "28/07/2025"
-        val appointmentTime = "10:30"
-        val timeKey = "10_30_28_07_2025"
-
-        val appointmentData = mapOf(
-            "date" to appointmentDate,
-            "time" to appointmentTime,
-            "patient_name" to patientName,
-            "age" to "25",
-            "gender" to "Male",
-            "allergies" to "None",
-            "medical_conditions" to "Asthma",
-            "notes" to "Needs routine checkup",
-            "uid" to patientUid
-        )
-
-        val dbRef = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("users")
-            .child(doctorUid)
-            .child("appointment_requests")
-            .child(timeKey)
-
-        dbRef.setValue(appointmentData)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Dummy appointment uploaded", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

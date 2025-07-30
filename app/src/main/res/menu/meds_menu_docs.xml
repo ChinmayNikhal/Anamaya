@@ -13,4 +13,10 @@
         android:id="@+id/nav_view_prescriptions"
         android:icon="@drawable/ic_prescription"
         android:title="View Prescriptions" />
+
+    <item
+        android:id="@+id/nav_assign_prescription"
+        android:icon="@drawable/ic_prescription_add"
+        android:title="Assign Prescription" />
+
 </menu>

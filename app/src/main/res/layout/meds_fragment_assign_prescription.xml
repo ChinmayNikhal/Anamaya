@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_rectangle_outline"
+    android:padding="8dp">
+
+    <!-- Use a LinearLayout inside ScrollView for vertical stacking -->
+    <LinearLayout
+        android:id="@+id/rootContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tilDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Date: "
+            android:textColor="@color/app_secondary_text_dark_grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvPatientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Patient :"
+            android:textColor="@color/app_secondary_text_dark_grey"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinnerPatient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:background="@drawable/rounded_corner_teal_outline"
+            android:minHeight="48dp"
+            android:paddingStart="10dp" />
+
+        <TextView
+            android:id="@+id/tvDoctorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Doctor Name: "
+            android:textColor="@color/app_secondary_text_dark_grey"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMedsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Medications:"
+                android:textColor="@color/app_secondary_text_dark_grey"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/medsListContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <!-- Inner ScrollView removed to avoid nesting scrolls -->
+
+        <Button
+            android:id="@+id/btnAddMed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/teal_700"
+            android:fontFamily="@font/roboto_mono"
+            android:gravity="center"
+            android:text="Add Medication"
+            android:textColor="@android:color/white"
+            android:visibility="visible"
+            app:cornerRadius="10dp" />
+
+        <ImageView
+            android:id="@+id/ivPrescriptionImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Prescription image"
+            android:scaleType="fitCenter"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btnUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto_mono"
+            android:gravity="center"
+            android:text="Add Prescription Image"
+            android:visibility="visible"
+            app:cornerRadius="10dp" />
+
+        <LinearLayout
+            android:id="@+id/addButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_700"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Cancel"
+                android:textColor="@android:color/white"
+                app:cornerRadius="10dp" />
+
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_700"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Send"
+                android:textColor="@android:color/white"
+                app:cornerRadius="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

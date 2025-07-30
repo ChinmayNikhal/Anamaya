@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -92,6 +93,48 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity", "Image banner clicked")
         }
 
+        // Button listeners
+        findViewById<Button>(R.id.btn_chat).setOnClickListener {
+            val intent = Intent(this, ContentHostActivity::class.java).apply {
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_NAME, ContentHostActivity.FRAGMENT_SUPPORT)
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_TITLE, "Chat Support")
+                putExtra(ContentHostActivity.EXTRA_MENU_RES_ID, R.menu.profile_menu)
+                putExtra(ContentHostActivity.EXTRA_SELECTED_NAV_ITEM_ID, R.id.nav_support)
+            }
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.btn_pharmacy_search).setOnClickListener {
+            val intent = Intent(this, ContentHostActivity::class.java).apply {
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_NAME, ContentHostActivity.FRAGMENT_SHOP_ORDER_NOW)
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_TITLE, "Pharmacy Search")
+                putExtra(ContentHostActivity.EXTRA_MENU_RES_ID, R.menu.shop_menu)
+                putExtra(ContentHostActivity.EXTRA_SELECTED_NAV_ITEM_ID, R.id.nav_order_new)
+            }
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.btn_meds_schedule).setOnClickListener {
+            val intent = Intent(this, ContentHostActivity::class.java).apply {
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_NAME, ContentHostActivity.FRAGMENT_MEDS_SCHEDULE)
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_TITLE, "Meds Schedule")
+                putExtra(ContentHostActivity.EXTRA_MENU_RES_ID, R.menu.meds_menu)
+                putExtra(ContentHostActivity.EXTRA_SELECTED_NAV_ITEM_ID, R.id.nav_meds_schedule)
+            }
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.btn_view_prescriptions).setOnClickListener {
+            val intent = Intent(this, ContentHostActivity::class.java).apply {
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_NAME, ContentHostActivity.FRAGMENT_MEDS_VIEW_PRESCRIPTIONS)
+                putExtra(ContentHostActivity.EXTRA_FRAGMENT_TITLE, "Prescriptions")
+                putExtra(ContentHostActivity.EXTRA_MENU_RES_ID, R.menu.meds_menu)
+                putExtra(ContentHostActivity.EXTRA_SELECTED_NAV_ITEM_ID, R.id.nav_view_prescriptions)
+            }
+            startActivity(intent)
+        }
+
+
         // --- Bottom Navigation View Setup ---
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -130,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_shop -> {
                     Log.d("MainActivity", "Bottom Nav: Shop")
                     val intent = Intent(this, Class.forName("com.example.anamaya.ContentHostActivity")).apply {
-                        putExtra(ContentHostActivity.EXTRA_FRAGMENT_NAME, ContentHostActivity.FRAGMENT_MEDS_ORDER_NEW)
+                        putExtra(ContentHostActivity.EXTRA_FRAGMENT_NAME, ContentHostActivity.FRAGMENT_MEDS_ASSIGN_PRESCRIPTION)
                         putExtra(ContentHostActivity.EXTRA_FRAGMENT_TITLE, "Meds Shop")
                         putExtra(ContentHostActivity.EXTRA_MENU_RES_ID, R.menu.shop_menu)
                         putExtra(ContentHostActivity.EXTRA_SELECTED_NAV_ITEM_ID, R.id.nav_shop)

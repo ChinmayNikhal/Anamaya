@@ -1,27 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewPrescriptionsRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Scrollable area for the list of prescriptions -->
     <ScrollView
         android:id="@+id/scrollPrescriptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ButtonAtBottom"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-
-        android:layout_alignParentEnd="true"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="621dp"
-        android:contentDescription="@string/PrescriptionsList"
+        android:layout_height="match_parent"
         android:fillViewport="true"
-        android:padding="2dp"
-        android:visibility="visible">
+        android:padding="2dp">
 
         <LinearLayout
             android:id="@+id/layoutPrescriptionList"
@@ -29,37 +17,4 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
-
-    <!-- Wide bottom button -->
-
-    <LinearLayout
-        android:id="@+id/ButtonAtBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnAddNewPrescription"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
-            android:backgroundTint="?attr/colorPrimary"
-            android:fontFamily="@font/roboto_mono"
-            android:maxWidth="52dp"
-            android:padding="12dp"
-            android:text="Add New Prescription"
-            android:textColor="@color/app_content_white"
-            android:textSize="16sp"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_prescription_add"
-            app:iconGravity="textEnd"
-            app:iconPadding="10dp"
-            app:iconSize="36dp" />
-    </LinearLayout>
-
 </RelativeLayout>

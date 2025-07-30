@@ -1,134 +1,157 @@
 package com.example.anamaya.meds
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.anamaya.R
 import com.example.anamaya.`class`.Medication
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class FragmentMyMedications : Fragment() {
 
-    private lateinit var medicationsListContainer: LinearLayout
-    private lateinit var searchBar: EditText
-    private lateinit var fabAddMedicine: FloatingActionButton
-    private val allMedications = mutableListOf<Medication>()
-
-    private val databaseRef by lazy {
-        FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("meds")
-    }
+    private lateinit var layoutMeds: LinearLayout
+    private lateinit var textNoMeds: TextView
+    private lateinit var database: FirebaseDatabase
+    private lateinit var auth: FirebaseAuth
+    private val TAG = "MyMeds"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.meds_fragment_my_medications, container, false)
-        medicationsListContainer = view.findViewById(R.id.medicationsListContainer)
-        searchBar = view.findViewById(R.id.searchBar)
-        fabAddMedicine = view.findViewById(R.id.fabAddMedicine)
+        layoutMeds = view.findViewById(R.id.medicationsListContainer)
+        textNoMeds = view.findViewById(R.id.textNoMeds)
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+
+        loadUserMeds()
+
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun loadUserMeds() {
+        val uid = auth.currentUser?.uid ?: return
+        val userMedsRef = database.getReference("users/$uid/user_meds")
+        val medsRef = database.getReference("meds")
 
-        fetchMedicationsFromFirebase()
+        userMedsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(userMedsSnapshot: DataSnapshot) {
+                layoutMeds.removeAllViews()
 
-        fabAddMedicine.setOnClickListener {
-            FragmentAddMedicineDialog().show(childFragmentManager, "AddMedicineDialog")
-        }
-
-        searchBar.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s.toString().trim()
-                val filteredList = if (query.isEmpty()) allMedications else {
-                    allMedications.filter {
-                        it.name.contains(query, ignoreCase = true)
-                    }
+                if (!userMedsSnapshot.exists()) {
+                    textNoMeds.isVisible = true
+                    return
                 }
-                displayMedications(filteredList)
-            }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable?) {}
-        })
-    }
+                textNoMeds.isVisible = false
 
-    private fun fetchMedicationsFromFirebase() {
-        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                allMedications.clear()
-                for (medSnapshot in snapshot.children) {
-                    val med = medSnapshot.getValue(Medication::class.java)
-                    if (med != null) {
-                        allMedications.add(med)
-                    }
+                for (medSnapshot in userMedsSnapshot.children) {
+                    val rawMedId = medSnapshot.child("med_id").getValue(String::class.java)
+                    val amt = medSnapshot.child("amt").getValue(String::class.java)
+                    val time = medSnapshot.child("time").getValue(String::class.java)
+                    val mealOption = medSnapshot.child("meal_option").getValue(String::class.java)
+
+                    if (rawMedId.isNullOrBlank()) return
+
+                    // Attempt direct lookup
+                    medsRef.child(rawMedId).addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(medDetailsSnapshot: DataSnapshot) {
+                            if (medDetailsSnapshot.exists()) {
+                                val name = medDetailsSnapshot.child("name").getValue(String::class.java) ?: "Unknown"
+                                val description = medDetailsSnapshot.child("description").getValue(String::class.java) ?: ""
+                                val manufacturer = medDetailsSnapshot.child("manufacturer").getValue(String::class.java) ?: ""
+
+                                displayMed(rawMedId, name, description, manufacturer, amt, time, mealOption)
+                            } else {
+                                Log.d(TAG, "med_id not found directly: $rawMedId, trying reverse lookup")
+                                // Reverse lookup by name instead
+                                medsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(medsSnapshot: DataSnapshot) {
+                                        var matched = false
+                                        for (med in medsSnapshot.children) {
+                                            val name = med.child("name").getValue(String::class.java)
+                                            if (name == rawMedId) {
+                                                val medId = med.key ?: continue
+                                                val description = med.child("description").getValue(String::class.java) ?: ""
+                                                val manufacturer = med.child("manufacturer").getValue(String::class.java) ?: ""
+
+                                                displayMed(medId, name, description, manufacturer, amt, time, mealOption)
+                                                matched = true
+                                                break
+                                            }
+                                        }
+                                        if (!matched) {
+                                            Log.d(TAG, "Reverse lookup failed for med name: $rawMedId")
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Log.e(TAG, "Reverse lookup failed: ${error.message}")
+                                    }
+                                })
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.e(TAG, "Failed to fetch med details: ${error.message}")
+                        }
+                    })
                 }
-                displayMedications(allMedications)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                showToast("Failed to fetch medications: ${error.message}")
+                Log.e(TAG, "Failed to fetch user_meds: ${error.message}")
             }
         })
     }
 
-    fun displayMedications(medsToDisplay: List<Medication>) {
-        medicationsListContainer.removeAllViews()
+    private fun displayMed(
+        medId: String,
+        name: String,
+        description: String,
+        manufacturer: String,
+        amt: String?,
+        time: String?,
+        mealOption: String?
+    ) {
+        val med = Medication(
+            name = name,
+            quantity = amt?.toIntOrNull() ?: 0,
+            id = medId,
+            description = description,
+            manufacturer = manufacturer,
+            time = time ?: "",
+            mealOption = mealOption ?: ""
+        )
 
-        if (medsToDisplay.isEmpty()) {
-            val noResultsTv = TextView(context).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-                text = "No medications found."
-                gravity = Gravity.CENTER
-                setPadding(0, 32, 0, 32)
-                setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray))
+        val medInfo = "$name - ${amt ?: "?"} pcs at ${time ?: "?"} (${mealOption ?: "?"})"
+
+        val textView = TextView(requireContext()).apply {
+            text = medInfo
+            textSize = 16f
+            setTextColor(ContextCompat.getColor(context, R.color.app_text_black))
+            setPadding(32, 24, 32, 24)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 0, 0, 16)
             }
-            medicationsListContainer.addView(noResultsTv)
-            return
-        }
-
-        val inflater = LayoutInflater.from(context)
-        medsToDisplay.forEach { medication ->
-            val itemView = inflater.inflate(R.layout.item_medication, medicationsListContainer, false)
-
-            itemView.findViewById<TextView>(R.id.tvMedicationName).text = medication.name
-            itemView.findViewById<TextView>(R.id.tvMedicationQuantity).text = "Qty: ${medication.quantity}"
-
-            itemView.setOnClickListener {
-                FragmentAddMedicineDialog(medication).show(childFragmentManager, "ViewMedicineDialog")
+            background = ContextCompat.getDrawable(context, R.drawable.rounded_rectangle_outline)
+            setOnClickListener {
+                FragmentAddMedicineDialog(med).show(childFragmentManager, "view_medicine")
             }
-
-            medicationsListContainer.addView(itemView)
         }
+
+        layoutMeds.addView(textView)
     }
 
-    fun addNewMedication(medication: Medication) {
-        allMedications.add(medication)
-        displayMedications(allMedications.sortedBy { it.name })
-        showToast("Added new medication: ${medication.name}")
-    }
-
-    fun deleteMedication(med: Medication) {
-        allMedications.remove(med)
-        displayMedications(allMedications)
-        showToast("Deleted: ${med.name}")
-    }
-
-    fun getAllMedications(): List<Medication> = allMedications
-
-    fun showToast(message: String) {
-        if (isAdded) {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        }
-    }
 }

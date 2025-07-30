@@ -9,43 +9,49 @@ import androidx.fragment.app.Fragment
 import com.example.anamaya.`class`.Prescription
 import com.example.anamaya.databinding.MedsFragmentViewPrescriptionsBinding
 import com.example.anamaya.databinding.ItemPrescriptionBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class FragmentViewPrescriptions : Fragment() {
 
     private lateinit var binding: MedsFragmentViewPrescriptionsBinding
     private val prescriptionList = mutableListOf<Prescription>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    private val databaseRef by lazy {
+        FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("users")
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = MedsFragmentViewPrescriptionsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        loadDummyPrescriptions()
-        renderPrescriptions()
-
-        binding.btnAddNewPrescription.setOnClickListener {
-            val newPrescription = Prescription(
-                date = "",
-                doctorName = "",
-                medications = listOf(),
-                imageUri = null
-            )
-            val dialog = PrescriptionDialogFragment.newInstance(newPrescription, isViewMode = false)
-            dialog.setTargetFragment(this, 0)
-            dialog.show(parentFragmentManager, "AddPrescriptionDialog")
-        }
+        fetchUserPrescriptions()
     }
 
-    fun addNewPrescription(prescription: Prescription) {
-        prescriptionList.add(prescription)
-        renderPrescriptions()
-        showToast("Added prescription: ${prescription.doctorName}")
+    private fun fetchUserPrescriptions() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        databaseRef.child(uid).child("user_prescription")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    prescriptionList.clear()
+                    for (prescriptionSnap in snapshot.children) {
+                        val presc = prescriptionSnap.getValue(Prescription::class.java)
+                        if (presc != null) {
+                            prescriptionList.add(presc)
+                        }
+                    }
+                    renderPrescriptions()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    showToast("Failed to load prescriptions: ${error.message}")
+                }
+            })
     }
 
     private fun renderPrescriptions() {
@@ -58,31 +64,12 @@ class FragmentViewPrescriptions : Fragment() {
             itemBinding.tvDoctorName.text = prescription.doctorName
 
             itemBinding.root.setOnClickListener {
-                val dialog = PrescriptionDialogFragment.newInstance(prescription, isViewMode = true)
+                val dialog = PrescriptionDialogFragment.newInstance(prescription) // View-only mode
                 dialog.show(parentFragmentManager, "ViewPrescriptionDialog")
             }
 
             binding.layoutPrescriptionList.addView(itemBinding.root)
         }
-    }
-
-    private fun loadDummyPrescriptions() {
-        prescriptionList.add(
-            Prescription(
-                date = "18 Jul 2025",
-                doctorName = "Dr. Anaya Roy",
-                medications = listOf("Paracetamol", "Amoxicillin"),
-                imageUri = null
-            )
-        )
-        prescriptionList.add(
-            Prescription(
-                date = "10 Jun 2025",
-                doctorName = "Dr. Kamath",
-                medications = listOf("Ibuprofen"),
-                imageUri = null
-            )
-        )
     }
 
     private fun showToast(message: String) {

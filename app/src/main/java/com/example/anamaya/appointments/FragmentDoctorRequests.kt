@@ -38,7 +38,7 @@ class FragmentDoctorRequests : Fragment() {
 
                 for (snap in snapshot.children) {
                     val key = snap.key ?: continue
-                    val datePart = key.split("_").drop(2).joinToString("-") // e.g. 20-07-2025
+                    val datePart = key.split("_").drop(2).joinToString("-")
                     grouped.getOrPut(datePart) { mutableListOf() }.add(snap)
                 }
 
@@ -111,34 +111,48 @@ class FragmentDoctorRequests : Fragment() {
                 return@setOnClickListener
             }
 
-            val appointmentData = mapOf(
-                "date" to data["date"],
-                "time" to data["time"],
-                "patient_name" to data["patient_name"],
-                "age" to data["age"],
-                "gender" to data["gender"],
-                "allergies" to data["allergies"],
-                "medical_conditions" to data["medical_conditions"],
-                "notes" to data["notes"],
-                "doctor_uid" to doctorUid
-            )
+            // Fetch doctor name before proceeding
+            dbRef.child(doctorUid).child("fullName").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(nameSnapshot: DataSnapshot) {
+                    val doctorName = nameSnapshot.getValue(String::class.java) ?: "Doctor"
 
-            val updates = hashMapOf<String, Any?>(
-                "/$doctorUid/appointment_requests/$key" to null, // delete from requests
-                "/$doctorUid/patient_appointments/$key" to appointmentData,
-                "/$patientUid/user_appointments/$key" to appointmentData
-            )
+                    val appointmentData = mapOf(
+                        "date" to data["date"],
+                        "time" to data["time"],
+                        "patient_name" to data["patient_name"],
+                        "age" to data["age"],
+                        "gender" to data["gender"],
+                        "allergies" to data["allergies"],
+                        "medical_conditions" to data["medical_conditions"],
+                        "notes" to data["notes"],
+                        "doctor_name" to doctorName,
+                        "doctor_uid" to doctorUid,
+                        "patient_uid" to patientUid
+                    )
 
-            dbRef.updateChildren(updates).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(requireContext(), "Appointment Accepted", Toast.LENGTH_SHORT).show()
-                    fetchRequests()
-                } else {
-                    Toast.makeText(requireContext(), "Error updating records", Toast.LENGTH_SHORT).show()
+                    val updates = hashMapOf<String, Any?>(
+                        "/$doctorUid/appointment_requests/$key" to null,
+                        "/$doctorUid/patient_appointments/$key" to appointmentData,
+                        "/$patientUid/user_appointments/$key" to appointmentData
+                    )
+
+                    dbRef.updateChildren(updates).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Toast.makeText(requireContext(), "Appointment Accepted", Toast.LENGTH_SHORT).show()
+                            fetchRequests()
+                        } else {
+                            Toast.makeText(requireContext(), "Error updating records", Toast.LENGTH_SHORT).show()
+                        }
+                        dialog.dismiss()
+                    }
                 }
-                dialog.dismiss()
-            }
-        }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(requireContext(), "Error fetchingg doctor name", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
+            })
+        }//hehe
 
         dialog.findViewById<Button>(R.id.btnDeclineAppointment).setOnClickListener {
             dbRef.child(doctorUid).child("appointment_requests").child(key).removeValue()

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_corner_teal_outline"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp">
+
+    <TextView
+        android:id="@+id/tvTimeHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05:30 AM"
+        android:textSize="18sp"
+        android:textColor="@color/app_primary_teal"
+        android:textStyle="bold"
+        android:fontFamily="@font/roboto_mono"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:id="@+id/containerMedEntries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+</LinearLayout>

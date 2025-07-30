@@ -6,4 +6,6 @@ data class Medication(
     val id: String = "",
     val description: String = "",
     val manufacturer: String = "",
+    var time: String = "",
+    var mealOption: String = ""
 )

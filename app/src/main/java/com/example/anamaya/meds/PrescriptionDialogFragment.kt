@@ -1,196 +1,163 @@
 package com.example.anamaya.meds
 
-import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.example.anamaya.R
 import com.example.anamaya.`class`.Prescription
 import com.example.anamaya.databinding.DialogPrescriptionBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import java.util.Calendar
+import java.util.UUID
+import java.util.regex.Pattern
 
 class PrescriptionDialogFragment : DialogFragment() {
 
-    private var _binding: DialogPrescriptionBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: DialogPrescriptionBinding
 
-    private var prescription: Prescription? = null
-    private var isViewMode: Boolean = true
-    private var selectedImageUri: Uri? = null
-
-    val userUid = FirebaseAuth.getInstance().currentUser?.uid
-    val database = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            prescription = it.getParcelable("prescription")
-            isViewMode = it.getBoolean("isViewMode", true)
-        }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = DialogPrescriptionBinding.inflate(LayoutInflater.from(requireContext()))
-        setupUI()
-        return AlertDialog.Builder(requireContext())
-            .setView(binding.root)
-            .create()
-    }
-
-    private fun setupUI() {
-        val isAddMode = !isViewMode
-
-        // Disable manual input for date
-        binding.etDate.isFocusable = false
-        binding.etDate.isClickable = true
-
-        // Enable or disable text fields
-        binding.tilDate.isEnabled = isAddMode
-        binding.tilDoctor.isEnabled = isAddMode
-
-        // Set up date picker
-        if (isAddMode) {
-            binding.etDate.setOnClickListener {
-                val calendar = Calendar.getInstance()
-                val datePicker = DatePickerDialog(
-                    requireContext(),
-                    { _, year, month, dayOfMonth ->
-                        val formattedDate = "%02d/%02d/%04d".format(dayOfMonth, month + 1, year)
-                        binding.etDate.setText(formattedDate)
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-                )
-                datePicker.show()
-            }
-        }
-
-        // Toggle visibility of buttons/sections
-        binding.btnAddMed.visibility = if (isAddMode) View.VISIBLE else View.GONE
-        binding.btnUploadImage.visibility = if (isAddMode) View.VISIBLE else View.GONE
-        binding.addButtons.visibility = if (isAddMode) View.VISIBLE else View.GONE
-        binding.viewButtons.visibility = if (isViewMode) View.VISIBLE else View.GONE
-
-        // Populate fields if prescription exists
-        prescription?.let {
-            binding.etDate.setText(it.date)
-            binding.etDoctor.setText(it.doctorName)
-
-            binding.medsListContainer.removeAllViews()
-            for (med in it.medications) {
-                val medView = LayoutInflater.from(context).inflate(
-                    android.R.layout.simple_list_item_1,
-                    binding.medsListContainer,
-                    false
-                ) as TextView
-                medView.text = med
-                binding.medsListContainer.addView(medView)
-            }
-
-            val imageUri: Uri? = it.imageUri
-            if (imageUri != null) {
-                binding.ivPrescriptionImage.visibility = View.VISIBLE
-                binding.ivPrescriptionImage.setImageURI(imageUri)
-            } else {
-                binding.ivPrescriptionImage.visibility = View.GONE
-            }
-        }
-
-        binding.btnClose.setOnClickListener { dismiss() }
-        binding.btnCancel.setOnClickListener { dismiss() }
-
-        binding.btnSave.setOnClickListener {
-
-            if (userUid == null) {
-                Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val newPrescription = Prescription(
-                date = binding.etDate.text.toString(),
-                doctorName = binding.etDoctor.text.toString(),
-                medications = listOf("DummyMed1", "DummyMed2"),  // Replace later
-                imageUri = selectedImageUri
-            )
-
-
-            val prescriptionId = database.child("prescriptions").push().key ?: return@setOnClickListener
-
-            // Save imageUri as string temporarily
-            val prescriptionMap = hashMapOf(
-                "date" to newPrescription.date,
-                "doctorName" to newPrescription.doctorName,
-                "medications" to newPrescription.medications,
-                "imageUri" to (newPrescription.imageUri?.toString() ?: ""),
-                "ttl" to newPrescription.ttl
-            )
-
-            // Save under `prescriptions/{id}`
-            database.child("prescriptions").child(prescriptionId).setValue(prescriptionMap)
-                .addOnSuccessListener {
-                    // Link under user's record
-                    database.child("users").child(userUid).child("user_prescription").child(prescriptionId).setValue(true)
-                    Toast.makeText(requireContext(), "Prescription saved", Toast.LENGTH_SHORT).show()
-                    (parentFragment as? FragmentViewPrescriptions)?.addNewPrescription(newPrescription)
-                    dismiss()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
-                }
-        }
-
-
-        binding.btnAddMed.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "You can add medications after saving this prescription.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        binding.btnUploadImage.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 101)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-            val uri = data?.data
-            if (uri != null) {
-                selectedImageUri = uri
-                binding.ivPrescriptionImage.setImageURI(uri)
-                binding.ivPrescriptionImage.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    // Firebase reference to /users
+    private val databaseRef by lazy {
+        FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("users")
     }
 
     companion object {
-        fun newInstance(prescription: Prescription, isViewMode: Boolean): PrescriptionDialogFragment {
-            val fragment = PrescriptionDialogFragment()
-            val args = Bundle().apply {
-                putParcelable("prescription", prescription)
-                putBoolean("isViewMode", isViewMode)
-            }
-            fragment.arguments = args
-            return fragment
+        private var currentPrescription: Prescription? = null
+
+        fun newInstance(prescription: Prescription): PrescriptionDialogFragment {
+            currentPrescription = prescription
+            return PrescriptionDialogFragment()
         }
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DialogPrescriptionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val presc = currentPrescription ?: return
+
+        binding.etDoctor.setText(presc.doctorName)
+        binding.etDate.setText(presc.date)
+
+        val medsContainer = binding.medsListContainer.getChildAt(0) as LinearLayout
+        medsContainer.removeAllViews()
+
+        presc.medications.forEach { med ->
+            val textView = TextView(requireContext()).apply {
+                text = "• $med"
+                setTextColor(ContextCompat.getColor(context, R.color.splash_primary_text))
+                textSize = 16f
+                setPadding(0, 4, 0, 4)
+            }
+            medsContainer.addView(textView)
+        }
+
+        if (!presc.imageUrl.isNullOrBlank()) {
+            val fileName = Uri.parse(presc.imageUrl).lastPathSegment ?: "File"
+            binding.tvImageFileName.text = "Attached: $fileName"
+            binding.tvImageFileName.visibility = View.VISIBLE
+        } else {
+            binding.tvImageFileName.visibility = View.GONE
+        }
+
+        // View-only mode setup
+        binding.etDoctor.isEnabled = false
+        binding.etDate.isEnabled = false
+        binding.viewButtons.visibility = View.VISIBLE
+        binding.addButtons.visibility = View.GONE
+        binding.btnAddMed.visibility = View.VISIBLE
+        binding.btnUploadImage.visibility = View.GONE
+
+        binding.btnClose.setOnClickListener { dismiss() }
+
+        binding.btnAddMed.setOnClickListener {
+            addMedsToUser()
+        }
+    }
+
+    private fun addMedsToUser() {
+        val presc = currentPrescription ?: return
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val medsRef = FirebaseDatabase.getInstance("https://anamaya-41e41e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("users")
+            .child(uid)
+            .child("user_meds")
+
+        medsRef.get().addOnSuccessListener { snapshot ->
+            val existingMeds = snapshot.children.mapNotNull { it.value as? Map<*, *> }
+
+            var addedCount = 0
+            var duplicateCount = 0
+
+            for (med in presc.medications) {
+                val (name, amt, time, mealOption) = extractMedDetails(med)
+
+                val isDuplicate = existingMeds.any {
+                    it["med_id"] == name && it["amt"] == amt && it["time"] == time && it["meal_option"] == mealOption
+                }
+
+                if (isDuplicate) {
+                    duplicateCount++
+                    continue
+                }
+
+                val medId = UUID.randomUUID().toString()
+                val medData = mapOf(
+                    "med_id" to name,
+                    "amt" to amt,
+                    "time" to time,
+                    "meal_option" to mealOption
+                )
+
+                medsRef.child(medId).setValue(medData).addOnSuccessListener {
+                    addedCount++
+                    if (addedCount + duplicateCount == presc.medications.size) {
+                        val msg = buildString {
+                            if (addedCount > 0) append("$addedCount meds added. ")
+                            if (duplicateCount > 0) append("$duplicateCount already existed.")
+                        }
+                        Toast.makeText(requireContext(), msg.trim(), Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to add some meds", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // If all were duplicates
+            if (presc.medications.isNotEmpty() && addedCount == 0 && duplicateCount == presc.medications.size) {
+                Toast.makeText(requireContext(), "All medications already exist.", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to check existing meds", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun extractMedDetails(medStr: String): Quadruple<String, String, String, String> {
+        // Example: "Paracetamol 320mg Tablet - 2 pcs at 05:31 (After)"
+        val pattern = Pattern.compile("^(.*?) - (\\d+) pcs at ([0-9]{2}:[0-9]{2}) \\((.*?)\\)$")
+        val matcher = pattern.matcher(medStr)
+
+        return if (matcher.find()) {
+            val name = matcher.group(1)
+            val amt = matcher.group(2)
+            val time = matcher.group(3)
+            val meal = matcher.group(4)
+            Quadruple(name, amt, time, meal)
+        } else {
+            Quadruple(medStr, "1", "08:00", "Before") // fallback values
+        }
+    }
+
+    data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
 }
